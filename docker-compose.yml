@@ -1,0 +1,43 @@
+consul:
+  extends:
+    file: base.yml
+    service: consul
+
+kopf:
+  extends:
+    file: base.yml
+    service: kopf
+
+
+esm0:
+  extends:
+    file: base.yml
+    service: elasticsearch
+  hostname: esm0
+  links:
+  - consul:consul
+  ports:
+  - "9200:9200"
+  environment:
+  - ES_DATA_NODE=false
+
+esm1:
+  extends:
+    file: base.yml
+    service: elasticsearch
+  ports:
+  - "9201:9200"
+  hostname: esm1
+  links:
+  - consul:consul
+  environment:
+  - ES_DATA_NODE=false
+
+esd:
+  extends:
+    file: base.yml
+    service: elasticsearch
+  links:
+  - consul:consul
+  environment:
+  - ES_MASTER_NODE=false

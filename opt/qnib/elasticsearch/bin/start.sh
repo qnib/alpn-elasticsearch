@@ -1,5 +1,7 @@
 #!/usr/local/bin/dumb-init /bin/bash
 
+
+
 function wait_es {
     # wait for es to come up
     if [ $(curl -s localhost:9200|grep status|grep -c 200) -ne 1 ];then
@@ -12,23 +14,17 @@ function wait_es {
 
 if [ "X${ES_TAGS}" != "X" ];then
    TAGS=$(python -c 'import os;print "\",\"".join(os.environ["ES_TAGS"].split(","))')
-   sed -i'' -e "s/\"tags\":.*/\"tags\": [\"${TAGS}\"],/" /etc/consul.d/check_elasticsearch.json
+   sed -i'' -e "s/\"tags\":.*/\"tags\": [\"${TAGS}\"],/" /etc/consul.d/elasticsearch.json
    consul reload
 fi
 
+consul-template -consul localhost:8500 -once -template "/etc/consul-templates/elasticsearch/elasticsearch.yml.ctmpl:/opt/elasticsearch/config/elasticsearch.yml"
+consul-template -consul localhost:8500 -once -template "/etc/consul-templates/elasticsearch/logging.yml.ctmpl:/opt/elasticsearch/config/logging.yml"
+chown -R elasticsearch: /opt/elasticsearch/data
+su -c '/opt/elasticsearch/bin/elasticsearch' elasticsearch
 
-sed -i'' -e "s/ES_NODE_NAME/${ES_NODE_NAME-$(hostname)}/" /etc/elasticsearch/elasticsearch.yml
-sed -i'' -e "s/ES_DATA_NODE/${ES_DATA_NODE-true}/" /etc/elasticsearch/elasticsearch.yml
-sed -i'' -e "s/ES_MASTER_NODE/${ES_MASTER_NODE-true}/" /etc/elasticsearch/elasticsearch.yml
-sed -i'' -e "s/ES_CLUSTER_NAME/${ES_CLUSTER_NAME-qnib}/" /etc/elasticsearch/elasticsearch.yml
-
-/usr/share/elasticsearch/bin/elasticsearch -p /var/run/elasticsearch/elasticsearch.pid \
-    -Des.default.path.home=/usr/share/elasticsearch \
-    -Des.default.path.logs=/var/log/elasticsearch \
-    -Des.default.path.data=/var/lib/elasticsearch \
-    -Des.default.path.work=/tmp/elasticsearch \
-    -Des.default.path.conf=/etc/elasticsearch &
-
+exit 0
+############### Never used part
 sleep 10
 wait_es
 
@@ -49,5 +45,3 @@ if [ "X${ES_IDX}" != "X" ];then
     fi
 
 fi
-
-su -c '/opt/elasticsearch/bin/elasticsearch' elasticsearch
