@@ -13,7 +13,7 @@ elasticsearch:
     #build: .
     environment:
     - DC_NAME=dc1
-    - ES_CLUSTER_NAME=gaikai
+    - ES_CLUSTER_NAME=qnib
     dns: 127.0.0.1
     volumes:
     - /var/lib/elasticsearch
