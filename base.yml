@@ -16,7 +16,8 @@ elasticsearch:
     - ES_CLUSTER_NAME=qnib
     dns: 127.0.0.1
     volumes:
-    - /var/lib/elasticsearch
+     - /opt/elasticsearch/data/
+     - /opt/elasticsearch/logs/
     privileged: true
 
 kopf:
