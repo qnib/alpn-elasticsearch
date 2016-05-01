@@ -28,11 +28,11 @@
 #
 # Path to directory where to store the data (separate multiple locations by comma):
 #
-# path.data: /path/to/data
+path.data: /opt/elasticsearch/data/
 #
 # Path to log files:
 #
-# path.logs: /path/to/logs
+path.logs: /opt/elasticsearch/logs/
 #
 # ----------------------------------- Memory -----------------------------------
 #
