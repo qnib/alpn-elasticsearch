@@ -1,6 +1,5 @@
 #!/usr/local/bin/dumb-init /bin/bash
-
-
+set -ex
 
 function wait_es {
     # wait for es to come up
@@ -16,6 +15,11 @@ if [ "X${ES_TAGS}" != "X" ];then
    TAGS=$(python -c 'import os;print "\",\"".join(os.environ["ES_TAGS"].split(","))')
    sed -i'' -e "s/\"tags\":.*/\"tags\": [\"${TAGS}\"],/" /etc/consul.d/elasticsearch.json
    consul reload
+fi
+
+if [ ! -z ${ES_RAMDISK_SIZE} ];then
+    mkdir -p ${ES_PATH_DATA}
+    mount -t tmpfs -o size=${ES_RAMDISK_SIZE} tmpfs ${ES_PATH_DATA}
 fi
 
 consul-template -consul localhost:8500 -once -template "/etc/consul-templates/elasticsearch/elasticsearch.yml.ctmpl:/opt/elasticsearch/config/elasticsearch.yml"

@@ -1,11 +1,14 @@
 FROM qnib/alpn-jre8
 
-ENV ES_VER=2.3.1 \
+ENV ES_VER=2.3.3 \
     ES_URL=https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch \
     ES_DATA_NODE=true \
     ES_MASTER_NODE=true \
     ES_HEAP_SIZE=512m \
-    ES_NET_HOST=0.0.0.0
+    ES_NET_HOST=0.0.0.0 \
+    ES_PATH_DATA=/opt/elasticsearch/data/ \
+    ES_PATH_LOGS=/opt/elasticsearch/logs \
+    ES_MLOCKALL=true
 RUN apk add --update curl nmap jq \
  && curl -sL ${ES_URL}/${ES_VER}/elasticsearch-${ES_VER}.tar.gz |tar xfz - -C /opt/ \
  && mv /opt/elasticsearch-${ES_VER} /opt/elasticsearch \
