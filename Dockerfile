@@ -9,7 +9,7 @@ ENV ES_VER=2.3.3 \
     ES_PATH_DATA=/opt/elasticsearch/data/ \
     ES_PATH_LOGS=/opt/elasticsearch/logs \
     ES_MLOCKALL=true
-RUN apk add --update curl nmap jq \
+RUN apk add --update curl nmap jq vim \
  && curl -sL ${ES_URL}/${ES_VER}/elasticsearch-${ES_VER}.tar.gz |tar xfz - -C /opt/ \
  && mv /opt/elasticsearch-${ES_VER} /opt/elasticsearch \
  && rm -rf /var/cache/apk/* /tmp/* 
