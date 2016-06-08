@@ -19,12 +19,12 @@ RUN adduser -s /bin/bash -u 2000 -h /opt/elasticsearch -H -D elasticsearch \
  && chown -R elasticsearch: /opt/elasticsearch 
 ADD etc/consul-templates/elasticsearch/elasticsearch.yml.ctmpl \
     etc/consul-templates/elasticsearch/logging.yml.ctmpl \
+    etc/consul-templates/elasticsearch/elasticsearch.json.ctmpl \
     /etc/consul-templates/elasticsearch/
 ADD opt/qnib/elasticsearch/bin/start.sh \
     opt/qnib/elasticsearch/bin/stop.sh \
     /opt/qnib/elasticsearch/bin/
 ADD etc/supervisord.d/elasticsearch.ini /etc/supervisord.d/
-ADD etc/consul.d/elasticsearch.json /etc/consul.d/
 RUN apk add --update python git bc \
  && curl -sLo /opt/es-backup-scripts.zip https://github.com/import-io/es-backup-scripts/archive/master.zip \
  && unzip -q -d /opt/ /opt/es-backup-scripts.zip \

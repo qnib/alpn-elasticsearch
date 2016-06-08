@@ -25,9 +25,9 @@ fi
 if [ -z ${ES_NODE_NAME} ] && [ -f /etc/hostname ];then
   export ES_NODE_NAME=$(cat /etc/hostname)
 fi
-
+consul-template -once -template "/etc/consul-templates/elasticsearch/es.json.ctmpl:/etc/consul.d/es.json"
+consul-template -once -template "/etc/consul-templates/elasticsearch/logging.yml.ctmpl:/opt/elasticsearch/config/logging.yml"
 consul-template -consul localhost:8500 -once -template "/etc/consul-templates/elasticsearch/elasticsearch.yml.ctmpl:/opt/elasticsearch/config/elasticsearch.yml"
-consul-template -consul localhost:8500 -once -template "/etc/consul-templates/elasticsearch/logging.yml.ctmpl:/opt/elasticsearch/config/logging.yml"
 chown -R elasticsearch: /opt/elasticsearch/data
 su -c '/opt/elasticsearch/bin/elasticsearch' elasticsearch
 
