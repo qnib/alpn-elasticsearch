@@ -1,8 +1,8 @@
-{{{ $master := env "ES_MASTER_NODE" }}{{ $data := env "ES_DATA_NODE" }}
+{
   "service": {
     "name": "elasticsearch",
     "port": 9200,
-    "tags": [{{ if eq $master "true" }}"master"{{ else }}"data"{{ end }}],
+    "tags": [{{ $master := env "ES_MASTER_NODE" }}{{ $data := env "ES_DATA_NODE" }}{{ if eq $master "true" }}"master"{{ else }}"data"{{ end }}],
     "check": {
       "script": "nmap 127.0.0.1 -PN -p 9200 | grep open",
       "interval": "10s"
