@@ -63,7 +63,8 @@ bootstrap.mlockall: {{ env "ES_MLOCKALL" }}
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 # (created by consu-template)
-discovery.zen.ping.unicast.hosts: [{{range $i, $e := service "elasticsearch" "any"}}{{ if .Tags.Contains "master" }}{{ if ne $i 0 }},{{ end }}"{{ .Address }}"{{ end }}{{ end }}]
+{{ $skipcomma := true }}
+discovery.zen.ping.unicast.hosts: [{{range $i, $e := service "elasticsearch" "any"}}{{ if .Tags.Contains "master" }}{{ if $skipcomma }}{{ $skipcomma := false }}{{ else }},{{ end }}"{{ .Address }}"{{ end }}{{ end }}]
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of nodes / 2 + 1):
 #
