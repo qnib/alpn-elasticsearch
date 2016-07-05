@@ -10,10 +10,6 @@ ENV ES_URL=https://download.elastic.co/elasticsearch/elasticsearch \
     ES_MLOCKALL=true
 RUN apk add --update curl nmap jq vim \
  && rm -rf /var/cache/apk/* /tmp/* 
-VOLUME ["/opt/elasticsearch/logs", "/opt/elasticsearch/data/"]
-RUN adduser -s /bin/bash -u 2000 -h /opt/elasticsearch -H -D elasticsearch \
- && echo "export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk/bin" >> /opt/elasticsearch/.bash_profile \
- && chown -R elasticsearch: /opt/elasticsearch 
 ADD etc/consul-templates/elasticsearch/elasticsearch.yml.ctmpl \
     etc/consul-templates/elasticsearch/logging.yml.ctmpl \
     etc/consul-templates/elasticsearch/elasticsearch.json.ctmpl \
@@ -32,3 +28,7 @@ RUN apk add --update python git bc \
 ENV ES_VER=1.7.4 
 RUN curl -sL ${ES_URL}/elasticsearch-${ES_VER}.tar.gz |tar xfz - -C /opt/ \
  && mv /opt/elasticsearch-${ES_VER} /opt/elasticsearch 
+VOLUME ["/opt/elasticsearch/logs", "/opt/elasticsearch/data/"]
+RUN adduser -s /bin/bash -u 2000 -h /opt/elasticsearch -H -D elasticsearch \
+ && echo "export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk/bin" >> /opt/elasticsearch/.bash_profile \
+ && chown -R elasticsearch: /opt/elasticsearch 
