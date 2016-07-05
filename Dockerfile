@@ -29,6 +29,6 @@ RUN apk add --update python git bc \
  && mv /opt/es-backup-scripts-master/ /opt/es-backup-scripts \
  && apk del git \
  && rm -rf /var/cache/apk/* /tmp/* 
-ENV ES_VER=1.7.4 
+ENV ES_VER=1.7.5 
 RUN curl -sL ${ES_URL}/elasticsearch-${ES_VER}.tar.gz |tar xfz - -C /opt/ \
  && mv /opt/elasticsearch-${ES_VER} /opt/elasticsearch 
