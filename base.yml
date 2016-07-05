@@ -1,15 +1,15 @@
 consul:
-    image: qnib/consul
+    image: qnib/alpn-consul
     ports:
      - "8500:8500"
     environment:
-    - DC_NAME=dc1
+     - CONSUL_BOOTSTRAP_EXPECT=1
     dns: 127.0.0.1
     hostname: consul
     privileged: true
 
 elasticsearch:
-    image: qnib/elasticsearch
+    image: qnib/alpn-elasticsearch:1.7.4
     #build: .
     environment:
     - DC_NAME=dc1
@@ -21,7 +21,7 @@ elasticsearch:
     privileged: true
 
 kopf:
-  image: lmenezes/elasticsearch-kopf
+  image: qnib/kopf
   ports:
   - 8088:80
   environment:
