@@ -9,7 +9,7 @@ consul:
     privileged: true
 
 elasticsearch:
-    image: qnib/alpn-elasticsearch:1.7.4
+    image: qnib/alpn-elasticsearch:1.7.5
     #build: .
     environment:
     - DC_NAME=dc1
