@@ -1,7 +1,7 @@
 FROM qnib/alpn-jre8
 
-ENV ES_URL=https://download.elastic.co/elasticsearch/elasticsearch \
-    ES_DATA_NODE=true \
+ARG ES_URL=https://download.elastic.co/elasticsearch/elasticsearch \
+ENV ES_DATA_NODE=true \
     ES_MASTER_NODE=true \
     ES_HEAP_SIZE=512m \
     ES_NET_HOST=0.0.0.0 \
@@ -25,7 +25,7 @@ RUN apk add --update python git bc \
  && mv /opt/es-backup-scripts-master/ /opt/es-backup-scripts \
  && apk del git \
  && rm -rf /var/cache/apk/* /tmp/* 
-ENV ES_VER=1.7.4 
+ARG ES_VER=1.7.4 
 RUN curl -sL ${ES_URL}/elasticsearch-${ES_VER}.tar.gz |tar xfz - -C /opt/ \
  && mv /opt/elasticsearch-${ES_VER} /opt/elasticsearch 
 VOLUME ["/opt/elasticsearch/logs", "/opt/elasticsearch/data/"]
