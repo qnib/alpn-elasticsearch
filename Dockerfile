@@ -1,6 +1,6 @@
 FROM qnib/alpn-jre8
 
-ARG ES_URL=https://download.elastic.co/elasticsearch/elasticsearch \
+ARG ES_URL=https://download.elastic.co/elasticsearch/elasticsearch
 ENV ES_DATA_NODE=true \
     ES_MASTER_NODE=true \
     ES_HEAP_SIZE=512m \
