@@ -1,8 +1,8 @@
 FROM qnib/alpn-jre8
 
-ENV ES_VER=2.3.5 \
-    ES_URL=https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch \
-    ES_DATA_NODE=true \
+ARG ES_VER=2.3.5 
+ARG ES_URL=https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch
+ENV ES_DATA_NODE=true \
     ES_MASTER_NODE=true \
     ES_HEAP_SIZE=512m \
     ES_NET_HOST=0.0.0.0 \
