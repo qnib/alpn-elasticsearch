@@ -39,7 +39,3 @@ chown -R elasticsearch: /opt/elasticsearch/data /opt/elasticsearch/logs
 su -c '/opt/elasticsearch/bin/elasticsearch' elasticsearch
 
 exit 0
-
-############### Never used part
-sleep 10
-wait_es
