@@ -50,6 +50,7 @@ bootstrap.mlockall: {{ env "ES_MLOCKALL" }}
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
 {{$nethost := env "ES_NET_HOST"}}{{ if ne $nethost "" }}network.host: {{ $nethost }}{{ else }}# network.host: _local_{{ end }}
+{{$netpub := env "ES_PUB_IP"}}{{ if ne $netpub "" }}network.publish_host: {{ $netpub }}{{ else }}# network.publish_host: {{ end }}
 #
 # Set a custom port for HTTP:
 #
