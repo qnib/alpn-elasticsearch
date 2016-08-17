@@ -1,8 +1,8 @@
 FROM qnib/alpn-jre8
 
-ARG ES_VER=2.3.5 
-ARG ES_URL=https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch
-ENV ES_DATA_NODE=true \
+ENV ES_VER=2.3.5 \
+    ES_URL=https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch \
+    ES_DATA_NODE=true \
     ES_MASTER_NODE=true \
     ES_HEAP_SIZE=512m \
     ES_NET_HOST=0.0.0.0 \
@@ -23,8 +23,11 @@ ADD etc/consul-templates/elasticsearch/elasticsearch.yml.ctmpl \
     /etc/consul-templates/elasticsearch/
 ADD opt/qnib/elasticsearch/bin/start.sh \
     opt/qnib/elasticsearch/bin/stop.sh \
+    opt/qnib/elasticsearch/bin/register.sh \
+    opt/qnib/elasticsearch/bin/healthcheck.sh \
     /opt/qnib/elasticsearch/bin/
-ADD etc/supervisord.d/elasticsearch.ini /etc/supervisord.d/
+ADD etc/supervisord.d/elasticsearch.ini \
+    /etc/supervisord.d/
 RUN apk add --update python git bc \
  && curl -sLo /opt/es-backup-scripts.zip https://github.com/import-io/es-backup-scripts/archive/master.zip \
  && unzip -q -d /opt/ /opt/es-backup-scripts.zip \
@@ -32,3 +35,5 @@ RUN apk add --update python git bc \
  && mv /opt/es-backup-scripts-master/ /opt/es-backup-scripts \
  && apk del git \
  && rm -rf /var/cache/apk/* /tmp/* 
+HEALTHCHECK --interval=2s --retries=300 --timeout=1s \
+ CMD /opt/qnib/elasticsearch/bin/healthcheck.sh

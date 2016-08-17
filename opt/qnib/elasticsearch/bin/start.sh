@@ -22,6 +22,10 @@ if [ ! -z ${ES_RAMDISK_SIZE} ];then
     mount -t tmpfs -o size=${ES_RAMDISK_SIZE} tmpfs ${ES_PATH_DATA}
 fi
 
+if [ "X${ES_PUB_IP}" == "X" ];then
+    export ES_PUB_IP=$(ip -o -4 add|egrep '16|24' |head -n1 |egrep -o '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
+fi
+
 if [ -z ${ES_NODE_NAME} ] && [ -f /etc/hostname ];then
   export ES_NODE_NAME=$(cat /etc/hostname)
 fi
@@ -30,28 +34,12 @@ consul reload
 sleep 5
 consul-template -once -template "/etc/consul-templates/elasticsearch/logging.yml.ctmpl:/opt/elasticsearch/config/logging.yml"
 consul-template -consul localhost:8500 -once -template "/etc/consul-templates/elasticsearch/elasticsearch.yml.ctmpl:/opt/elasticsearch/config/elasticsearch.yml"
-chown -R elasticsearch: /opt/elasticsearch/data
+mkdir -p /opt/elasticsearch/data /opt/elasticsearch/logs
+chown -R elasticsearch: /opt/elasticsearch/data /opt/elasticsearch/logs
 su -c '/opt/elasticsearch/bin/elasticsearch' elasticsearch
 
 exit 0
+
 ############### Never used part
 sleep 10
 wait_es
-
-if [ "X${ES_IDX}" != "X" ];then
-    echo "$(date +'%F %H:%M:%S') > Deleting index ${ES_IDX}"
-    curl -XDELETE "http://localhost:9200/${ES_IDX}"
-    echo '\n PUT index settings.'
-    if [ -f /opt/qnib/etc/${ES_IDX}/settings.json ];then
-        curl -XPUT "http://localhost:9200/${ES_IDX}/" --data-binary @/opt/qnib/etc/${ES_IDX}/settings.json
-    else
-        curl -XPUT "http://localhost:9200/${ES_IDX}/"
-    fi
-    echo '\n'
-    if [ -f /opt/qnib/etc/${ES_IDX}/mappings.json ];then
-        echo ' Add mappings'
-        curl -XPUT "http://localhost:9200/${ES_IDX}/_mappings" --data-binary @/opt/qnib/etc/${ES_IDX}/mappings.json
-        echo '\n'
-    fi
-
-fi
