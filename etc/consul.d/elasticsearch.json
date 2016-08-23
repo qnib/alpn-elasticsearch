@@ -1,0 +1,14 @@
+{
+  "services": [
+    {
+        "id": "elasticsearch",
+        "name": "elasticsearch",
+        "tags": [],
+        "port": 9200,
+        "checks": [{
+            "script": "/opt/qnib/elasticsearch/bin/healthcheck.sh",
+            "interval": "10s"
+        }]
+    }
+  ]
+}
