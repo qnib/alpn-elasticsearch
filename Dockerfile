@@ -26,6 +26,7 @@ ADD opt/qnib/elasticsearch/bin/start.sh \
     opt/qnib/elasticsearch/bin/register.sh \
     opt/qnib/elasticsearch/bin/healthcheck.sh \
     /opt/qnib/elasticsearch/bin/
+ADD opt/qnib/elasticsearch/index-registration/settings/*.json /opt/qnib/elasticsearch/index-registration/settings/
 ADD etc/supervisord.d/elasticsearch.ini \
     /etc/supervisord.d/
 RUN apk add --update python git bc \
