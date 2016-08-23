@@ -29,6 +29,7 @@ ADD opt/qnib/elasticsearch/bin/start.sh \
 ADD opt/qnib/elasticsearch/index-registration/settings/*.json /opt/qnib/elasticsearch/index-registration/settings/
 ADD etc/supervisord.d/elasticsearch.ini \
     /etc/supervisord.d/
+ADD /etc/consul.d/elasticsearch.json /etc/consul.d/
 RUN apk add --update python git bc \
  && curl -sLo /opt/es-backup-scripts.zip https://github.com/import-io/es-backup-scripts/archive/master.zip \
  && unzip -q -d /opt/ /opt/es-backup-scripts.zip \
