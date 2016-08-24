@@ -29,6 +29,7 @@ ADD opt/qnib/elasticsearch/bin/start.sh \
     /opt/qnib/elasticsearch/bin/
 ADD opt/qnib/elasticsearch/index-registration/settings/*.json /opt/qnib/elasticsearch/index-registration/settings/
 ADD etc/supervisord.d/elasticsearch.ini \
+    etc/supervisord.d/es-register.ini \
     /etc/supervisord.d/
 ADD /etc/consul.d/elasticsearch.json /etc/consul.d/
 RUN apk add --update python git bc \
@@ -37,6 +38,7 @@ RUN apk add --update python git bc \
  && rm -f /opt/es-backup-scripts.zip \
  && mv /opt/es-backup-scripts-master/ /opt/es-backup-scripts \
  && apk del git \
- && rm -rf /var/cache/apk/* /tmp/* 
+ && rm -rf /var/cache/apk/* /tmp/* \
+ && mkdir -p /opt/qnib/elasticsearch/index-registration/mappings
 HEALTHCHECK --interval=2s --retries=300 --timeout=1s \
  CMD /opt/qnib/elasticsearch/bin/healthcheck.sh

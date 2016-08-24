@@ -21,4 +21,5 @@ for x in $(find /opt/qnib/elasticsearch/index-registration/mappings/ -type f -na
     curl -sXPUT "http://127.0.0.1:9200/_template/map_${IDX}" --data-binary @${x}
 done
 
+sleep 2
 exit 0
