@@ -34,6 +34,9 @@ path.data: {{ env "ES_PATH_DATA" }}
 #
 path.logs: {{ env "ES_PATH_LOGS" }}
 #
+# Path for snapshots
+{{$snappath := env "ES_PATH_SNAP"}}{{ if ne $snappath "" }}path.repo: {{ $snappath }}{{ else }}#path.repo: SNAPPATH{{ end }}
+#
 # ----------------------------------- Memory -----------------------------------
 #
 # Lock the memory on startup:
