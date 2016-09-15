@@ -1,9 +1,9 @@
 consul:
     hostname: es-consul
     container_name: es-consul
-    image: qnib/consul
+    image: qnib/alpn-consul
     ports:
-     - "8500:8500"
+     - 8500
     environment:
     - DC_NAME=dc1
     - CONSUL_BOOTSTRAP_EXPECT=1
@@ -21,7 +21,7 @@ esm0:
   links:
   - consul:consul
   ports:
-  - "9200:9200"
+  - 9200
   environment:
   - ES_DATA_NODE=false
 
@@ -30,7 +30,7 @@ esm1:
     file: base.yml
     service: elasticsearch
   ports:
-  - "9201:9200"
+  - 9200
   hostname: esm1
   container_name: esm1
   links:
