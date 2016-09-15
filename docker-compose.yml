@@ -1,12 +1,15 @@
 consul:
-  extends:
-    file: base.yml
-    service: consul
-
-kopf:
-  extends:
-    file: base.yml
-    service: kopf
+    hostname: es-consul
+    container_name: es-consul
+    image: qnib/consul
+    ports:
+     - "8500:8500"
+    environment:
+    - DC_NAME=dc1
+    - CONSUL_BOOTSTRAP_EXPECT=1
+    dns: 127.0.0.1
+    hostname: consul
+    privileged: true
 
 
 esm0:
@@ -14,6 +17,7 @@ esm0:
     file: base.yml
     service: elasticsearch
   hostname: esm0
+  container_name: esm0
   links:
   - consul:consul
   ports:
@@ -28,6 +32,7 @@ esm1:
   ports:
   - "9201:9200"
   hostname: esm1
+  container_name: esm1
   links:
   - consul:consul
   environment:
