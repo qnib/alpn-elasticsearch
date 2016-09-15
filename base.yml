@@ -1,5 +1,5 @@
 elasticsearch:
-    image: qnib/elasticsearch:2.3.5
+    image: qnib/elasticsearch:2.3.4
     environment:
     - DC_NAME=dc1
     - ES_CLUSTER_NAME=qnib
