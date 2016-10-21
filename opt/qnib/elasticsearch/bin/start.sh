@@ -35,7 +35,8 @@ sleep 5
 consul-template -once -template "/etc/consul-templates/elasticsearch/logging.yml.ctmpl:/opt/elasticsearch/config/logging.yml"
 consul-template -consul localhost:8500 -once -template "/etc/consul-templates/elasticsearch/elasticsearch.yml.ctmpl:/opt/elasticsearch/config/elasticsearch.yml"
 mkdir -p /opt/elasticsearch/data /opt/elasticsearch/logs
-chown -R elasticsearch: /opt/elasticsearch/data /opt/elasticsearch/logs
-su -c '/opt/elasticsearch/bin/elasticsearch' elasticsearch
+chown -R elasticsearch: /opt/elasticsearch
+
+/opt/elasticsearch/bin/elasticsearch
 
 exit 0

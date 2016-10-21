@@ -1,19 +1,18 @@
 FROM qnib/alpn-jre8
 
-ENV ES_VER=2.3.5 \
-    ES_URL=https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch \
+ENV ES_VER=5.0.0-rc1 \
+    ES_URL=https://artifacts.elastic.co/downloads/elasticsearch \
     ES_DATA_NODE=true \
     ES_MASTER_NODE=true \
-    ES_HEAP_SIZE=512m \
+    ES_JAVA_OPTS="-Xms2g -Xmx2g" \
     ES_NET_HOST=0.0.0.0 \
     ES_PATH_DATA=/opt/elasticsearch/data/ \
     ES_PATH_LOGS=/opt/elasticsearch/logs \
     ES_MLOCKALL=true
 RUN apk add --update curl nmap jq vim \
- && curl -sL ${ES_URL}/${ES_VER}/elasticsearch-${ES_VER}.tar.gz |tar xfz - -C /opt/ \
+ && curl -sL ${ES_URL}/elasticsearch-${ES_VER}.tar.gz |tar xfz - -C /opt/ \
  && mv /opt/elasticsearch-${ES_VER} /opt/elasticsearch \
- && rm -rf /var/cache/apk/* /tmp/* \
- && /opt/elasticsearch/bin/plugin install lmenezes/elasticsearch-kopf
+ && rm -rf /var/cache/apk/* /tmp/* 
 VOLUME ["/opt/elasticsearch/logs", "/opt/elasticsearch/data/"]
 RUN adduser -s /bin/bash -u 2000 -h /opt/elasticsearch -H -D elasticsearch \
  && echo "export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/jdk/bin" >> /opt/elasticsearch/.bash_profile \
