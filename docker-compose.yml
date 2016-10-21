@@ -25,19 +25,6 @@ esm0:
   environment:
   - ES_DATA_NODE=false
 
-esm1:
-  extends:
-    file: base.yml
-    service: elasticsearch
-  ports:
-  - 9200
-  hostname: esm1
-  container_name: esm1
-  links:
-  - consul:consul
-  environment:
-  - ES_DATA_NODE=false
-
 esd:
   extends:
     file: base.yml
