@@ -1,4 +1,6 @@
-consul:
+version: '2'
+services:
+  consul: 
     hostname: es-consul
     container_name: es-consul
     image: qnib/alpn-consul
@@ -12,24 +14,22 @@ consul:
     privileged: true
 
 
-esm0:
-  extends:
-    file: base.yml
-    service: elasticsearch
-  hostname: esm0
-  container_name: esm0
-  links:
-  - consul:consul
-  ports:
-  - 9200
-  environment:
-  - ES_DATA_NODE=false
+  esm:
+    extends:
+      file: base.yml
+      service: elasticsearch
+    hostname: esm
+    container_name: esm
+    ports:
+     - 9200
+    environment:
+     - ES_DATA_NODE=false
+     - CONSUL_CLUSTER_IPS=consul
 
-esd:
-  extends:
-    file: base.yml
-    service: elasticsearch
-  links:
-  - consul:consul
-  environment:
-  - ES_MASTER_NODE=false
+  esd:
+    extends:
+      file: base.yml
+      service: elasticsearch
+    environment:
+     - ES_MASTER_NODE=false
+     - CONSUL_CLUSTER_IPS=consul

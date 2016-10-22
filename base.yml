@@ -1,5 +1,7 @@
-elasticsearch:
-    image: qnib/alpn-elasticsearch:5.0.0-rc1
+version: '2'
+services:
+  elasticsearch:
+    image: qnib/alpn-elasticsearch:5.0.0
     environment:
     - DC_NAME=dc1
     - ES_CLUSTER_NAME=qnib

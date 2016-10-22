@@ -1,15 +1,8 @@
 #!/usr/local/bin/dumb-init /bin/bash
 set -ex
 
-function wait_es {
-    # wait for es to come up
-    if [ $(curl -s localhost:9200|grep status|grep -c 200) -ne 1 ];then
-        sleep 1
-        wait_es
-    else
-        echo "$(date +'%F %H:%M:%S') > Elasticsearch return status 200 -> good to go"
-    fi
-}
+source /opt/qnib/consul/etc/bash_functions.sh
+wait_for_srv consul-http
 
 if [ "X${ES_TAGS}" != "X" ];then
    TAGS=$(python -c 'import os;print "\",\"".join(os.environ["ES_TAGS"].split(","))')
@@ -37,6 +30,6 @@ consul-template -consul localhost:8500 -once -template "/etc/consul-templates/el
 mkdir -p /opt/elasticsearch/data /opt/elasticsearch/logs
 chown -R elasticsearch: /opt/elasticsearch
 
-/opt/elasticsearch/bin/elasticsearch
+su -c /opt/elasticsearch/bin/elasticsearch elasticsearch
 
 exit 0

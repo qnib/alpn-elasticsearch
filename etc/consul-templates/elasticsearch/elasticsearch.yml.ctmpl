@@ -40,8 +40,8 @@ path.logs: {{ env "ES_PATH_LOGS" }}
 # ----------------------------------- Memory -----------------------------------
 #
 # Lock the memory on startup:
-#
-bootstrap.mlockall: {{ env "ES_MLOCKALL" }}
+# DEPRECIATED! 
+# bootstrap.mlockall: {{ env "ES_MLOCKALL" }}
 #
 # Make sure that the `ES_HEAP_SIZE` environment variable is set to about half the memory
 # available on the system and that the owner of the process is allowed to use this limit.
