@@ -101,3 +101,7 @@ http.cors.enabled: true
 # ------------------------------- NODE TYPE ------------------------------------
 node.data: {{ env "ES_DATA_NODE" }}
 node.master: {{ env "ES_MASTER_NODE" }}
+
+# ------------------------------- Repository Conf ------------------------------
+# Directory shared across all nodes to store and restore snapshots
+{{$path_repo := env "ES_PATH_REPO"}}{{ if ne $path_repo "" }}path.repo: ["{{ $path_repo }}"]{{ else }}# path.repo: []{{ end }}
