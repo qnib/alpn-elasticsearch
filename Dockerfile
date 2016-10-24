@@ -1,6 +1,6 @@
 FROM qnib/alpn-jre8
 
-ARG ES_VER=2.4.0
+ARG ES_VER=2.4.1
 ARG ES_URL=https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch
 ENV ES_DATA_NODE=true \
     ES_MASTER_NODE=true \
