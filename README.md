@@ -57,6 +57,32 @@ Or open it in a browser:
 $ open "http://localhost$(docker port esm |egrep -o ':.*$')/_cluster/health"
 ```
 
+## on WTF
+
+So if this is not doing what you want, here are some debugging hint's
+
+get a bash into your containers
+
+```
+$ docker exec -t -i <CONTAINER ID> bin/bash
+```
+
+See what the supervisor thinks
+
+```
+$ supervisorctl status
+```
+
+```
+$ tail -f /var/log/supervisor/elasticsearch.log
+```
+
+It's likely that the elasticsearch "bootstrap checks" failed, for example one whould be to to the following on the docker host it self.
+
+```
+$ sudo sysctl -w vm.max_map_count=262144
+```
+
 ## Scaling
 
 You can scale the data-nodes up and down with the docker-compose command:
